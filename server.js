@@ -10,7 +10,7 @@ const CLIENT_ID = process.env.PUBLIC_KEY;
 const fetch = require('node-fetch');
 
 // http://expressjs.com/en/starter/static-files.html
-app.use(express.static('dist'));
+app.use(express.static('public'));
 
 app.use(`${SPOTI_URL}*`, (request, response) => {
   fetch(`${SPOT_API_URL}${request.originalUrl}`, {headers: {authorization: request.headers.authorization}}).then((res) => res.json()).then((res) => {
@@ -26,7 +26,7 @@ app.use(`${SPOTI_URL}*`, (request, response) => {
 const SpotifyWebApi = require('spotify-web-api-node');
 
 // // Replace with your redirect URI, required scopes, and show_dialog preference
-const redirectUri = 'http://localhost:3000/';
+const redirectUri = 'https://collections.glitch.me/';
 const scopes = ['user-read-playback-state', 'playlist-modify-public', 'user-library-read', 'user-follow-read', 'user-modify-playback-state', 'streaming', 'user-read-birthdate', 'user-read-email', 'user-read-private'];
 // const showDialog = true;
 
