@@ -8,12 +8,39 @@ const SPOTI_URL = '/v1/';
 const SPOT_API_URL = 'https://api.spotify.com';
 const CLIENT_ID = process.env.PUBLIC_KEY;
 const fetch = require('node-fetch');
+const bodyParser = require('body-parser');
+
+// parse application/json
+// configure the app to use bodyParser()
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+app.use(bodyParser.text({ type: 'text/html' }))
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-app.use(`${SPOTI_URL}*`, (request, response) => {
+app.get(`${SPOTI_URL}*`, (request, response) => {
   fetch(`${SPOT_API_URL}${request.originalUrl}`, {headers: {authorization: request.headers.authorization}}).then((res) => res.json()).then((res) => {
+    response.json(res);
+  });
+});
+
+app.put(`${SPOTI_URL}*`, (request, response) => {
+  fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'PUT', headers: {authorization: request.headers.authorization}, body: Object.keys(request.body).length ? JSON.stringify(request.body) : null}).then((res) => res.json()).then((res) => {
+    response.json(res);
+  });
+});
+
+app.post(`${SPOTI_URL}*`, (request, response) => {
+  fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'POST', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.json()).then((res) => {
+    response.json(res);
+  });
+});
+
+app.delete(`${SPOTI_URL}*`, (request, response) => {
+  fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'DELETE', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.json()).then((res) => {
     response.json(res);
   });
 });
