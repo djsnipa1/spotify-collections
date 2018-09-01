@@ -40,8 +40,8 @@ app.post(`${SPOTI_URL}*`, (request, response) => {
 });
 
 app.delete(`${SPOTI_URL}*`, (request, response) => {
-  fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'DELETE', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.json()).then((res) => {
-    response.json(res);
+  fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'DELETE', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.text()).then((res) => {
+    response.json({});
   });
 });
 
