@@ -79,7 +79,6 @@ app.get("/callback", (request, response) => {
 
   spotifyApi.authorizationCodeGrant(authorizationCode)
     .then((data) => {
-      console.log(data);
       response.redirect(`/auth/callback#access_token=${data.body.access_token}&refresh_token=${data.body.refresh_token}&expires_in=${data.body.expires_in}`);
     }, (err) => {
       console.log('Something went wrong when retrieving the access token!', err.message);
