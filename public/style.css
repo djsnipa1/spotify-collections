@@ -671,9 +671,9 @@ h1.title {
 }
 .browse-page .container {
     width: 80%;
-    left: 10%;
-    min-width: 1180px;
-    margin: 0 auto;
+    left: 280px;
+    min-width: 1000px;
+    margin: 0;
     position: relative;
 }
 .browse-page .container .type-container {
@@ -723,7 +723,7 @@ h1.title {
 }
 @media (max-width: 1350px) {
 body .browse-page .container {
-    left: 200px;
+    left: 280px;
     min-width: 1000px;
 }
 }
@@ -731,5 +731,3 @@ body .browse-page .container {
 body {
   overflow: hidden;
 }
-
-/*# sourceMappingURL=main-1df0a47b8cd656d1aa83.css.map*/
