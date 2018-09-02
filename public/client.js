@@ -19198,7 +19198,7 @@ exports.default = {
     //setup
     var type = this.isArtist ? _constants.ARTIST : _constants.ALBUM;
     var isArtistsOrSaved = this.isArtist || this.isSaved;
-    var renderItems = this.isOpen ? this.renderItems : [].concat(_toConsumableArray(this.renderItems.slice(0, window.innerWidth >= 1300 ? 4 : 3)));
+    var renderItems = this.isOpen ? this.renderItems : [].concat(_toConsumableArray(this.renderItems.slice(0, window.innerWidth >= 1440 ? 4 : 3)));
     var delimiter = this.isArtist ? _constants.ARTISTS_PLAYLIST_KEY : _constants.ALBUMS_PLAYLIST_KEY;
     var name = this.collection.name || '';
     //build main container
