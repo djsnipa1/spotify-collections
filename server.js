@@ -24,27 +24,38 @@ app.use(express.static('public'));
 app.get(`${SPOTI_URL}*`, (request, response) => {
   fetch(`${SPOT_API_URL}${request.originalUrl}`, {headers: {authorization: request.headers.authorization}}).then((res) => res.json()).then((res) => {
     response.json(res);
+  }).catch((e) => {
+    response.status(500);
+    response.json(e);
   });
 });
 
 app.put(`${SPOTI_URL}*`, (request, response) => {
   fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'PUT', headers: {authorization: request.headers.authorization}, body: Object.keys(request.body).length ? JSON.stringify(request.body) : null}).then((res) => res.json()).then((res) => {
     response.json(res);
+  }).catch((e) => {
+    response.status(500);
+    response.json(e);
   });
 });
 
 app.post(`${SPOTI_URL}*`, (request, response) => {
   fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'POST', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.json()).then((res) => {
     response.json(res);
+  }).catch((e) => {
+    response.status(500);
+    response.json(e);
   });
 });
 
 app.delete(`${SPOTI_URL}*`, (request, response) => {
   fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'DELETE', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.text()).then((res) => {
     response.json({});
+  }).catch((e) => {
+    response.status(500);
+    response.json(e);
   });
 });
-
 
 // // -------------------------------------------------------------//
 

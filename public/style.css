@@ -660,6 +660,64 @@ h1.title {
   margin-bottom: 5px;
 }
 
+@media (max-width: 760px) {
+body .sidebar {
+    display: none;
+}
+body .browse-page .container.mobile-container {
+    left: 0;
+    min-width: auto;
+}
+body .hide-mobile {
+    display: none;
+}
+body .collection-item-container {
+    height: 150px;
+}
+body .collection-item {
+    grid-template-columns: repeat(auto-fit, minmax(50px, 130px));
+    grid-template-rows: repeat(auto-fit, 150px);
+}
+body .collection-item .item-name {
+      margin-top: 0;
+      position: absolute;
+      bottom: 0;
+}
+body .collection-item .image-container.is-open {
+      height: 100px;
+      width: 100px;
+}
+.album-detail-page {
+    height: 90%;
+    bottom: -90%;
+    display: block;
+    overflow: scroll;
+}
+.album-detail-page .remove-button {
+      position: relative;
+}
+.artist-detail-left-rail {
+    position: initial;
+    margin-top: 80px;
+    left: 0;
+}
+.artist-detail-album-preview .detail-artist-album {
+    max-width: 150px;
+}
+.artist-detail-album-preview {
+    height: auto;
+}
+.album-detail-page-sidebar .album-detail-page-sidebar-content {
+    position: initial;
+    margin: 0 auto;
+    margin-top: 80px;
+    left: 0;
+}
+.track-list-item {
+    padding: 20px;
+}
+}
+
 .browse-page {
   position: absolute;
   width: 100%;
@@ -731,3 +789,5 @@ body .browse-page .container {
 body {
   overflow: hidden;
 }
+
+/*# sourceMappingURL=main-73fd276195a516f23de5.css.map*/
