@@ -21,13 +21,28 @@ app.use(bodyParser.text({ type: 'text/html' }))
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+const forwardRequestToSpotify = ({ originalUrl, method, headers: { authorization } }, overridePayload) => {
+  const defaultPayload = {
+    method,
+    headers: { authorization },
+    
+  };
+  
+  const endpoint = SPOT_API_URL + originalUrl;
+  const payload = Object.assign({}, defaultPayload, overridePayload);
+
+  return fetch(endpoint, payload).then(res => res.json());
+};
+
 app.get(`${SPOTI_URL}*`, (request, response) => {
-  fetch(`${SPOT_API_URL}${request.originalUrl}`, {headers: {authorization: request.headers.authorization}}).then((res) => res.json()).then((res) => {
-    response.json(res);
-  }).catch((e) => {
-    response.status(500);
-    response.json(e);
-  });
+  console.log(request.method);
+  
+//  fetch(`${SPOT_API_URL}${request.originalUrl}`, {headers: {authorization: request.headers.authorization}}).then((res) => res.json()).then((res) => {
+//    response.json(res);
+//  }).catch((e) => {
+//    response.status(500);
+//    response.json(e);
+//  });
 });
 
 app.put(`${SPOTI_URL}*`, (request, response) => {
