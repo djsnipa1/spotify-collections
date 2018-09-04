@@ -21,47 +21,31 @@ app.use(bodyParser.text({ type: 'text/html' }))
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-const forwardRequestToSpotify = ({ originalUrl, method, headers: { authorization } }, overridePayload) => {
-  const defaultPayload = {
-    method,
-    headers: { authorization },
-    
-  };
+const extractBodyFromRequest = () => {
   
+};
+
+const forwardReqToSpotify = ({ originalUrl, method, headers: { authorization } }, overridePayload) => {
+  const defaultPayload = { method, headers: { authorization } };
   const endpoint = SPOT_API_URL + originalUrl;
   const payload = Object.assign({}, defaultPayload, overridePayload);
 
   return fetch(endpoint, payload).then(res => res.json());
 };
 
-app.get(`${SPOTI_URL}*`, (request, response) => {
-  console.log(request.method);
-  
-//  fetch(`${SPOT_API_URL}${request.originalUrl}`, {headers: {authorization: request.headers.authorization}}).then((res) => res.json()).then((res) => {
-//    response.json(res);
-//  }).catch((e) => {
-//    response.status(500);
-//    response.json(e);
-//  });
-});
+// HTTP GET
+app.get(`/v1/*`, (req, res) => forwardRequestToSpotify(req).then(json => res.json(json)).catch(err => res.status(500).json(err)));
 
-app.put(`${SPOTI_URL}*`, (request, response) => {
-  fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'PUT', headers: {authorization: request.headers.authorization}, body: Object.keys(request.body).length ? JSON.stringify(request.body) : null}).then((res) => res.json()).then((res) => {
-    response.json(res);
-  }).catch((e) => {
-    response.status(500);
-    response.json(e);
-  });
-});
+// HTTP POST
+app.post(`/v1/*`, (req, res) => forwardRequestToSpotify(req, { body: JSON.stringify(req.body) }).then(json => res.json(json)).catch(err => res.status(500).json(err)));
 
-app.post(`${SPOTI_URL}*`, (request, response) => {
-  fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'POST', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.json()).then((res) => {
-    response.json(res);
-  }).catch((e) => {
-    response.status(500);
-    response.json(e);
-  });
-});
+// HTTP PUT
+app.put(`/v1/*`, (req, res) => forwardRequestToSpotify(req, {
+  body: Object.keys(req.body).length ? JSON.stringify(req.body) : null
+}).then(json => res.json(json)).catch(err => res.status(500).json(err)));
+
+// HTTP DELETE
+app.delete(`/v1/*`, (req, res) => forwardRequestToSpotify(req, { body: JSON.stringify(req.body) }).then(json => res.json(json)).catch(err => res.status(500).json(err)));
 
 app.delete(`${SPOTI_URL}*`, (request, response) => {
   fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'DELETE', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.text()).then((res) => {
