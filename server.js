@@ -4,10 +4,12 @@
 // init project
 const express = require('express');
 const app = express();
-const SPOT_API_URL = 'https://api.spotify.com';
-const { CLIENT_ID, PROJECT_DOMAIN } = process.env;
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
+
+// app specific credentials
+const SPOT_API_URL = 'https://api.spotify.com';
+const { CLIENT_ID, PROJECT_DOMAIN } = process.env;
 
 // parse application/json
 // configure the app to use bodyParser()
@@ -55,20 +57,22 @@ app.delete(`/v1/*`, (req, res) =>
     .then(text => text.json({}))
     .catch(err => res.status(500).json(err)));
 
-// // -------------------------------------------------------------//
+/**
+ * Section 2:
+ *   Get authentication setup with the Spotify Accounts API.
+ */
 
-
-// // init Spotify API wrapper
 const SpotifyWebApi = require('spotify-web-api-node');
 
 // // Replace with your redirect URI, required scopes, and show_dialog preference
 const scopes = ['user-read-playback-state', 'playlist-modify-public', 'user-library-read', 'user-follow-read', 'user-modify-playback-state', 'streaming', 'user-read-birthdate', 'user-read-email', 'user-read-private'];
+const redirectUri = `https://${PROJECT_DOMAIN}.glitch.me/callback`;
 
 // // The API object we'll use to interact with the API
 const spotifyApi = new SpotifyWebApi({
   clientId: CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  redirectUri: `https://${PROJECT_DOMAIN}/callback`,
+  redirectUri
 });
 
 app.get("/authorize", (request, response) => {
@@ -76,30 +80,31 @@ app.get("/authorize", (request, response) => {
   '?response_type=code' +
   '&client_id=' + CLIENT_ID +
   '&scope=' + encodeURIComponent(scopes) +
-  '&redirect_uri=' + encodeURIComponent(redirectUri + 'callback'));
+  '&redirect_uri=' + encodeURIComponent(redirectUri));
 });
 
 
 // // Exchange Authorization Code for an Access Token
-app.get("/callback", (request, response) => {
-  const authorizationCode = request.query.code;
+app.get("/callback", (req, res) => {
+  const authorizationCode = req.query.code;
 
   spotifyApi.authorizationCodeGrant(authorizationCode)
-    .then((data) => {
-      response.redirect(`/auth/callback#access_token=${data.body.access_token}&refresh_token=${data.body.refresh_token}&expires_in=${data.body.expires_in}`);
-    }, (err) => {
+    .then(({ body: { access_token, refresh_token, expires_in } }) => {
+      res.redirect(`/auth/callback#access_token=${access_token}&refresh_token=${refresh_token}&expires_in=${expires_in}`);
+    }, err => {
       console.log('Something went wrong when retrieving the access token!', err.message);
     });
 });
 
-// // -------------------------------------------------------------//
+/**
+ * Section 3:
+ *   Get the project setup with Node and Express.
+ */
 
 // listen for requests :)
-
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/*", (request, response) => {
-  response.sendFile(`${__dirname }/views/index.html`);
-});
+
+app.get("/*", (req, res) => res.sendFile(`${__dirname }/views/index.html`));
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log(`Your app is listening on port ${ listener.address().port}`);
