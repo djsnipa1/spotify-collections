@@ -4,57 +4,56 @@
 // init project
 const express = require('express');
 const app = express();
-const SPOTI_URL = '/v1/';
 const SPOT_API_URL = 'https://api.spotify.com';
-const CLIENT_ID = process.env.PUBLIC_KEY;
+const { CLIENT_ID, PROJECT_DOMAIN } = process.env;
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
 
 // parse application/json
 // configure the app to use bodyParser()
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.text({ type: 'text/html' }))
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-const extractBodyFromRequest = () => {
-  
-};
+/**
+ * Section 1:
+ *   Forward requests to the Spotify API.
+ */
 
-const forwardReqToSpotify = ({ originalUrl, method, headers: { authorization } }, overridePayload) => {
+const forwardRequestToSpotify = ({ originalUrl, method, headers: { authorization } }, responseType, overridePayload) => {
   const defaultPayload = { method, headers: { authorization } };
   const endpoint = SPOT_API_URL + originalUrl;
   const payload = Object.assign({}, defaultPayload, overridePayload);
 
-  return fetch(endpoint, payload).then(res => res.json());
+  return fetch(endpoint, payload).then(res => responseType == 'json' ? res.json() : res.text());
 };
 
 // HTTP GET
-app.get(`/v1/*`, (req, res) => forwardRequestToSpotify(req).then(json => res.json(json)).catch(err => res.status(500).json(err)));
+app.get(`/v1/*`, (req, res) =>
+  forwardRequestToSpotify(req, 'json')
+    .then(json => res.json(json))
+    .catch(err => res.status(500).json(err)));
 
 // HTTP POST
-app.post(`/v1/*`, (req, res) => forwardRequestToSpotify(req, { body: JSON.stringify(req.body) }).then(json => res.json(json)).catch(err => res.status(500).json(err)));
+app.post(`/v1/*`, (req, res) =>
+  forwardRequestToSpotify(req, 'json', { body: JSON.stringify(req.body) })
+    .then(json => res.json(json))
+    .catch(err => res.status(500).json(err)));
 
 // HTTP PUT
-app.put(`/v1/*`, (req, res) => forwardRequestToSpotify(req, {
-  body: Object.keys(req.body).length ? JSON.stringify(req.body) : null
-}).then(json => res.json(json)).catch(err => res.status(500).json(err)));
+app.put(`/v1/*`, (req, res) =>
+  forwardRequestToSpotify(req, 'json', { body: Object.keys(req.body).length ? JSON.stringify(req.body) : null })
+    .then(json => res.json(json))
+    .catch(err => res.status(500).json(err)));
 
 // HTTP DELETE
-app.delete(`/v1/*`, (req, res) => forwardRequestToSpotify(req, { body: JSON.stringify(req.body) }).then(json => res.json(json)).catch(err => res.status(500).json(err)));
-
-app.delete(`${SPOTI_URL}*`, (request, response) => {
-  fetch(`${SPOT_API_URL}${request.originalUrl}`, {method: 'DELETE', headers: {authorization: request.headers.authorization}, body: JSON.stringify(request.body)}).then((res) => res.text()).then((res) => {
-    response.json({});
-  }).catch((e) => {
-    response.status(500);
-    response.json(e);
-  });
-});
+app.delete(`/v1/*`, (req, res) =>
+  forwardRequestToSpotify(req, 'text', { body: JSON.stringify(req.body) })
+    .then(text => text.json({}))
+    .catch(err => res.status(500).json(err)));
 
 // // -------------------------------------------------------------//
 
@@ -63,22 +62,20 @@ app.delete(`${SPOTI_URL}*`, (request, response) => {
 const SpotifyWebApi = require('spotify-web-api-node');
 
 // // Replace with your redirect URI, required scopes, and show_dialog preference
-const redirectUri = 'https://collections.glitch.me/';
 const scopes = ['user-read-playback-state', 'playlist-modify-public', 'user-library-read', 'user-follow-read', 'user-modify-playback-state', 'streaming', 'user-read-birthdate', 'user-read-email', 'user-read-private'];
-// const showDialog = true;
 
 // // The API object we'll use to interact with the API
 const spotifyApi = new SpotifyWebApi({
   clientId: CLIENT_ID,
-  clientSecret: process.env.PRIVATE_KEY,
-  redirectUri: `${redirectUri}callback`,
+  clientSecret: process.env.CLIENT_SECRET,
+  redirectUri: `https://${PROJECT_DOMAIN}/callback`,
 });
 
 app.get("/authorize", (request, response) => {
   response.redirect('https://accounts.spotify.com/authorize' +
   '?response_type=code' +
   '&client_id=' + CLIENT_ID +
-  (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+  '&scope=' + encodeURIComponent(scopes) +
   '&redirect_uri=' + encodeURIComponent(redirectUri + 'callback'));
 });
 
