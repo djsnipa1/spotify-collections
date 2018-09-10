@@ -13,7 +13,7 @@ module.exports = {
   output: {
     path: `${__dirname }/../dist`,
     filename: "bundle-[hash].js",
-    publicPath: '/dist/',
+    publicPath: '/',
   },
   devtool: 'source-map',
   module: {
