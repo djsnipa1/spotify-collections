@@ -4,7 +4,8 @@
   "description": "Create and view collections of albums on Spotify.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js & webpack --config ./webpack/webpack.config.local.js --watch",
+    "prestart": "webpack --config ./webpack/webpack.config.prod.js",
+    "start": "node server.js",
     "build": "webpack --config ./webpack/webpack.config.prod.js",
     "test": "jest",
     "test:ci": "npm run test"
