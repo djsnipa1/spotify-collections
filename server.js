@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.text({ type: 'text/html' }));
 
 // http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
+app.use(express.static('dist'));
 
 /**
  * Section 1:

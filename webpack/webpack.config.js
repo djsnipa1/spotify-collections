@@ -11,7 +11,7 @@ module.exports = {
     `${__dirname }/../src/index.js`,
   ],
   output: {
-    path: path.resolve(__dirname, '../dist/'),
+    path: `${__dirname }/../dist`,
     filename: "bundle-[hash].js",
     publicPath: '/dist/',
   },
