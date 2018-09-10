@@ -15,7 +15,7 @@ const { CLIENT_ID, PROJECT_DOMAIN } = process.env;
 // configure the app to use bodyParser()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.text({ type: 'text/html' }))
+app.use(bodyParser.text({ type: 'text/html' }));
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
