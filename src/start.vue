@@ -30,10 +30,12 @@ const routes = [
   { path: '/browse/:id/playlist/:uri', component: Browse},
   { path: '/callback', beforeEnter }
 ]
+
 const router = new VueRouter({
   mode: 'history',
   routes
 })
+
 new Vue({
   el: '#root',
   router,
