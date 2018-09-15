@@ -77,7 +77,7 @@ const spotifyApi = new SpotifyWebApi({
 
 app.get("/authorize", (request, response) => {
   response.redirect('https://accounts.spotify.com/authorize' +
-  '?response_type=code' +
+  '?response_type=token' +
   '&client_id=' + CLIENT_ID +
   '&scope=' + encodeURIComponent(scopes) +
   '&redirect_uri=' + encodeURIComponent(redirectUri));

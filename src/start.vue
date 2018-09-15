@@ -12,26 +12,28 @@ import {fireGAEvent} from './util';
 Vue.use(VueRouter);
 
 function beforeEnter(to, from, next) {
-      if (tryParsingAuthData()) {
-        const deeplinkReroute = window.localStorage.getItem(DEEPLINK_URL);
-        if (deeplinkReroute) {
-          window.localStorage.removeItem(DEEPLINK_URL);
-          window.location.href = deeplinkReroute;
-        }
-        from.fullPath === '/browse' ? undefined : next('/browse');
-        return;
-      }
-      next('/');
+  if (tryParsingAuthData()) {
+    const deeplinkReroute = window.localStorage.getItem(DEEPLINK_URL);
+    if (deeplinkReroute) {
+      window.localStorage.removeItem(DEEPLINK_URL);
+      window.location.href = deeplinkReroute;
     }
+    from.fullPath === '/browse' ? undefined : next('/browse');
+    return;
+  }
+  next('/');
+}
+
 const routes = [
   { path: '/', component: Splash},
   { path: '/browse', component: Browse},
   { path: '/browse/:id/playlist/:uri', component: Browse},
-  {path: '/auth/callback', beforeEnter}
+  { path: '/auth/callback', beforeEnter }
 ]
 const router = new VueRouter({
   mode: 'history',
-  routes})
+  routes
+})
 new Vue({
   el: '#root',
   router,
