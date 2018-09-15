@@ -29,7 +29,7 @@ export function getAuthToken() {
 
 export function getHeaders() {
   return {
-    "Authorization": `Bearer ${ getAuthToken()}`,
+    "Authorization": `Bearer ${getAuthToken()}`,
     'Content-Type': 'application/json',
     "Accept": 'application/json',
   };
