@@ -18,36 +18,21 @@ export function saveNewPlaylist(user, name) {
 export function findMe() {
   return new Promise((resolve, reject) => {
     fetch('/v1/me/', getConfig())
-      .then((res) => {
-        return res.json();
-      }).then((res) => {
-        resolve(res);
-      }).catch((e) => {
-        reject(e);
-      });
+      .then(res => res.json())
+      .then(res => resolve(res))
+      .catch(err => reject(err));
   });
 }
 export function deleteSongs({userId, playlistId, tracks }) {
   return new Promise((resolve, reject) => {
-    fetch(`/v1/users/${userId}/playlists/${playlistId}/tracks`, getDeleteConfig({tracks }))
-      .then((res) => {
-        return res.json();
-      }).then((res) => {
-        resolve(res);
-      }).catch((e) => {
-        reject(e);
-      });
+    fetch(`/v1/users/${userId}/playlists/${playlistId}/tracks`, getDeleteConfig({ tracks }))
+      .then(res => res.json())
+      .then(res => resolve(res))
+      .catch(err => reject(err));
   });
 }
 export function unfollowPlaylist({userId, playlistId }) {
-  return new Promise((resolve, reject) => {
-    fetch(`/v1/users/${userId}/playlists/${playlistId}/followers`, getDeleteConfig())
-      .then((res) => {
-        resolve();
-      }).catch((e) => {
-        reject(e);
-      });
-  });
+  return fetch(`/v1/users/${userId}/playlists/${playlistId}/followers`, getDeleteConfig());
 }
 export function getMyFollowArtists() {
   return new Promise((resolve, reject) => {
