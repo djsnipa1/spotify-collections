@@ -1,6 +1,25 @@
 <style lang="sass">
+.desktop-hide {
+  display: none;
+}
 @media (max-width: 1150px) {
   body {
+    .mobile-header {
+      background-color: #666;
+      left: -20px;
+      position: relative;
+      width: 110%;
+      overflow: hidden;
+      top: -20px;
+      height: 100px;
+      h1 {
+        text-align: center;
+        margin-top: 30px;
+      }
+    }
+    .desktop-hide {
+      display: block;
+    }
     .sidebar {
       display: none;
     }
@@ -18,6 +37,7 @@
       &.is-open {
         grid-template-columns: repeat(auto-fit, minmax(50px, 100px));
         grid-template-rows: repeat(auto-fit, 150px);
+        width: 120%;
       }
       grid-template-columns: repeat(auto-fit, 50px);
       grid-template-rows: repeat(auto-fit, 0);
