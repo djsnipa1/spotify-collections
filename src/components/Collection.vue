@@ -184,7 +184,7 @@ export default {
         this.SAY = this.origSAY = image.y + 'px';
         setTimeout(() => {
           this.SAX = window.innerWidth > 1150 ? '10%' : window.innerWidth > 768 ? '45%' : '40%';
-          this.SAY = window.innerWidth < 1150 ? '5%' : window.innerWidth > 900 ? '45%' : window.innerHeight > 700 ? '20%' : '10%';
+          this.SAY = window.innerWidth < 1150 ? '5%' : window.innerHeight > 700 ? '20%' : '10%';
         }, 100);
       });
     },
