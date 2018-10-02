@@ -4,6 +4,11 @@
 }
 @media (max-width: 1150px) {
   body {
+    .search-add-section .glyphicon {
+      font-size: 35px;
+      top: -40px;
+      left: 0;
+    }
     .mobile-header {
       background-color: #666;
       left: -20px;
@@ -38,6 +43,24 @@
         grid-template-columns: repeat(auto-fit, minmax(50px, 100px));
         grid-template-rows: repeat(auto-fit, 150px);
         width: 120%;
+      }
+      &-title.is-open {
+        margin-left: 0;
+        margin-top: -140px;
+        min-width: 90%;
+        &.is-search-open {
+          margin-left: 110%;
+
+        }
+      }
+      .back-to-main {
+        left: 0;
+        width: 40px;
+        height: 40px;
+        font-size: 25px;
+        &:hover {
+          font-size: 27px;
+        }
       }
       grid-template-columns: repeat(auto-fit, 50px);
       grid-template-rows: repeat(auto-fit, 0);
