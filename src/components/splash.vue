@@ -4,21 +4,19 @@ export default {
   methods: {
   },
   render(h) {
-    return (
-      <span class="splash-page">
-        <SplashBackground />
-        <div class="splash-page-text-section">
-          <span class="splash-page-text-gradient-top" />
-          <div class="splash-page-text">
-            <h1 class="title"><span>Collections<span class="top-banner-period">.</span></span></h1>
-            <h3 class="splash-page-text-subtext">Love the idea of albums and artists collections? This is the place for you.</h3>
-            <a href="/authorize"><button class="btn btn-green splash-page-text-button"> Connect to Spotify </button></a>
-            <p class="notice">notice: This program is using Spotify's playlist api to create collections. By creating new collections you understand that you are also creating playlists linked to your account.</p>
-          </div>
-          <span class="splash-page-text-gradient-bottom" />
-        </div>
-      </span>
-    )
+    return (<span class="splash-page">
+    <SplashBackground />
+    <div class="splash-page-text-section">
+    <span class="splash-page-text-gradient-top" />
+    <div class="splash-page-text">
+    <h1 class="title"><span>Collections<span class="top-banner-period">.</span></span></h1>
+    <h3 class="splash-page-text-subtext">Love the idea of albums and artists collections? This is the place for you.</h3>
+    <a href="/authorize"><button class="btn btn-green splash-page-text-button"> Connect to Spotify </button></a>
+    <p class="notice">notice: This program is using Spotify's playlist api to create collections. By creating new collections you understand that you are also creating playlists linked to your account.</p>
+    </div>
+    <span class="splash-page-text-gradient-bottom" />
+    </div>
+    </span>)
   } 
 }
 </script>
@@ -72,6 +70,7 @@ export default {
   }
   h1.title {
     font-size: 60px;
+    color: black;
   }
 }
 .top-banner {
