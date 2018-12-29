@@ -363,7 +363,7 @@ export default {
       box-shadow: none;
     }
     &.is-selected {
-      z-index: 2;
+      z-index: 3;
       position: fixed;
       &:hover {
         transform: rotate(0);
