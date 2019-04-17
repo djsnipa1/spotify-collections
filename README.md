@@ -4,7 +4,7 @@
 
 ## Description
 
-A website built off of the Spotify Web API and SDK, using Vue.js with JSX.
+A website built off of the Spotify Web API and SDK, using Vue.js with JSX. See github repo here: https://github.com/joshbDev/collections
 
 ## Setup
 
