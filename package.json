@@ -51,7 +51,7 @@
     "html-webpack-plugin": "^3.2.0",
     "import-loader": "^1.0.1",
     "lodash": "^4.17.11",
-    "node-fetch": "2.2.0",
+    "node-fetch": "2.6.1",
     "postcss-loader": "^3.0.0",
     "vue": "^2.5.17",
     "webpack-bundle-tracker": "^0.3.0",
